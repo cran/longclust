@@ -1,0 +1,8 @@
+useDynLib(longclust, tchol_entry, tcholmeans_entry)
+
+export(longclustEM)
+
+S3method(print, longclust)
+S3method(plot, longclust)
+S3method(summary, longclust)
+
