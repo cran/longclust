@@ -1,4 +1,4 @@
-b7de1d9e9270cd0de7c7a710ab348060 *DESCRIPTION
+1011b318cd300b1228962d903f287211 *DESCRIPTION
 ee777e10fb9232632fb69fea6b46a511 *NAMESPACE
 3cc901d69befa3fadffaba3e983fcadf *R/t_chol_new.R
 163f03e399d1b8f6b3d41893b8df4d40 *man/longclust-package.Rd
@@ -6,7 +6,7 @@ d05319ca049782342ac7bcd40df415b0 *man/longclustEM.Rd
 05023844804c28d80556d59d9c3d624b *man/plot.longclust.Rd
 e19af006ffe037d2d284b29bcad6cb6b *man/print.longclust.Rd
 a0047f1325cb47da2dbc8ece6150ba1e *man/summary.longclust.Rd
-79b67e28808bb7ab38a2a1115082e691 *src/Makevars
-79b67e28808bb7ab38a2a1115082e691 *src/Makevars.win
+2a6f9e9e044a78154d3cfda5936d6f48 *src/Makevars
+2a6f9e9e044a78154d3cfda5936d6f48 *src/Makevars.win
 c2716f9371cb94b02199c906d534fac3 *src/t_chol.c
 d23d7d0492b4e115b7541acbe58d14f7 *src/zeroin.h
