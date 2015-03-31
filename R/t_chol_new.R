@@ -1,4 +1,4 @@
-longclustEM <- function(x, Gmin, Gmax, class = NULL, linearMeans = FALSE, modelSubset = NULL, initWithKMeans = FALSE, criteria = "BIC", equalDF = FALSE, gaussian = FALSE) {
+longclustEM <- function(x, Gmin, Gmax, class = NULL, linearMeans = FALSE, modelSubset = NULL, initWithKMeans = FALSE, criteria = "BIC", equalDF = FALSE, gaussian = FALSE,userseed=1004) {
 	if(criteria != "BIC" && criteria != "ICL")
 	  stop("criteria should be \"BIC\" or \"ICL\" ");
   is.int <- function(no) {
@@ -46,7 +46,7 @@ longclustEM <- function(x, Gmin, Gmax, class = NULL, linearMeans = FALSE, modelS
   p <- dim(x)[2];
 #  if(!is.loaded("tcholmeans_entry") || !is.loaded("tchol_entry"))
 #    dyn.load('t_chol.so'); 
-  set.seed(1004);
+  set.seed(userseed);
 
   use_kmeans <- 0;
 	kmeansz <- NULL;

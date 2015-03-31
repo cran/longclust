@@ -1,20 +1,16 @@
 Package: longclust
 Type: Package
 Title: Model-Based Clustering and Classification for Longitudinal Data
-Version: 1.1
-Date: 2012-05-28
-Author: P. D. McNicholas, K. Raju Jampani and Sanjeena Subedi
-Maintainer: ORPHANED
+Version: 1.2
+Date: 2015-03-31
+Authors@R: c(person("Paul D.", "McNicholas", role = c("aut", "cre"), email = "mcnicholas@math.mcmaster.ca"), person("K. Raju", "Jampani", role = "aut", comment = "May to Dec 2012"), person("Sanjeena", "Subedi", role = "aut"))
+Author: Paul D. McNicholas [aut, cre], K. Raju Jampani [aut] (May to Dec 2012), Sanjeena Subedi [aut]
+Maintainer: Paul D. McNicholas <mcnicholas@math.mcmaster.ca>
 Suggests: mvtnorm
-Description: Clustering or classification of longitudinal data based on
-        a mixture of multivariate t or Gaussian distributions with a
-        Cholesky-decomposed covariance structure.
-License: GPL-2
+Description: Clustering or classification of longitudinal data based on a mixture of multivariate t or Gaussian distributions with a Cholesky-decomposed covariance structure.
+License: GPL (>= 2)
 LazyLoad: yes
-Packaged: 2012-05-29 18:44:08 UTC; raju
 Repository: CRAN
-Date/Publication: 2012-05-29 21:19:08
+Packaged: 2015-03-31 18:55:46 UTC; paul
 NeedsCompilation: yes
-X-CRAN-Original-Maintainer: K. Raju Jampani <rjampani@uoguelph.ca>
-X-CRAN-Comment: Orphaned on 2013-12-21 as maintainer address
-        <rjampani@uoguelph.ca> bounced.
+Date/Publication: 2015-03-31 22:11:54
