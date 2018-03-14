@@ -1,0 +1,3 @@
+longclust version 1.2.1 2018-03-12:
+
+- changes to NAMESPACE: addition of two importFrom()

@@ -1,5 +1,8 @@
 useDynLib(longclust, tchol_entry, tcholmeans_entry)
 
+importFrom("graphics", "matplot", "par")
+importFrom("stats", "kmeans", "printCoefmat")
+
 export(longclustEM)
 
 S3method(print, longclust)
