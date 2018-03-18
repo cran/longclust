@@ -1,8 +1,8 @@
 Package: longclust
 Type: Package
 Title: Model-Based Clustering and Classification for Longitudinal Data
-Version: 1.2.1
-Date: 2018-03-12
+Version: 1.2.2
+Date: 2018-03-18
 Authors@R: c(person("Paul D.", "McNicholas", role = c("aut", "cre"), email = "mcnicholas@math.mcmaster.ca"), person("K. Raju", "Jampani", role = "aut", comment = "May to Dec 2012"), person("Sanjeena", "Subedi", role = "aut"))
 Author: Paul D. McNicholas [aut, cre],
   K. Raju Jampani [aut] (May to Dec 2012),
@@ -14,5 +14,5 @@ License: GPL (>= 2)
 LazyLoad: yes
 Repository: CRAN
 NeedsCompilation: yes
-Packaged: 2018-03-14 14:52:25 UTC; paul
-Date/Publication: 2018-03-14 15:03:13 UTC
+Packaged: 2018-03-18 19:23:40 UTC; paul
+Date/Publication: 2018-03-18 21:30:18 UTC

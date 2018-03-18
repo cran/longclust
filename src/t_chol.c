@@ -957,7 +957,7 @@ void t_common(int domeans, double *x, int *classify, int N, int p, int G_min, in
 						  if(MAPz[i + N*g] == 1) {
 							    penalty += log(z[i+N*g]);
 							}
-					iclval = bicval + penalty;
+					iclval = bicval + 2*penalty;
 					if(iclval == iclval) {
 						max = maximum(iclres, modelsLength*G_max);
 						if(iclval >= max) {
@@ -1349,7 +1349,7 @@ void t_common(int domeans, double *x, int *classify, int N, int p, int G_min, in
 						  if(MAPz[i + N*g] == 1) {
 							  penalty += log(z[i+N*g]);
 							}
-					iclval = bicval + penalty;
+					iclval = bicval + 2*penalty;
 					if(iclval == iclval) {   // iclval is not nan.
 						max = maximum(iclres, modelsLength*G_max);
 						if(iclval >= max) {
