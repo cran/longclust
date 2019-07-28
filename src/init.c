@@ -6,12 +6,12 @@
 */
 
 /* .C calls */
-extern void tchol_entry(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void tcholmeans_entry(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void tchol_entry(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void tcholmeans_entry(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 
 static const R_CMethodDef CEntries[] = {
-    {"tchol_entry",      (DL_FUNC) &tchol_entry,      27},
-    {"tcholmeans_entry", (DL_FUNC) &tcholmeans_entry, 28},
+    {"tchol_entry",      (DL_FUNC) &tchol_entry,      26},
+    {"tcholmeans_entry", (DL_FUNC) &tcholmeans_entry, 27},
     {NULL, NULL, 0}
 };
 

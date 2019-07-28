@@ -52,7 +52,7 @@ longclustEM <- function(x, Gmin, Gmax, class = NULL, linearMeans = FALSE, modelS
 	kmeansz <- NULL;
 	if(initWithKMeans) {
 	  if(!is.null(class)) {
-		  print("Warning: Ignoring the option of initializing with k-means, since class is non-empty.");
+		  warning("Warning: Ignoring the option of initializing with k-means, since class is non-empty.");
 		} else {
 		  use_kmeans <- 1; 
       kmeansz <- matrix(0, N,Gmax+1-Gmin);
@@ -77,9 +77,9 @@ longclustEM <- function(x, Gmin, Gmax, class = NULL, linearMeans = FALSE, modelS
     time1[,1] <- rep(1,p);
     time1[,2] <- 1:p;
 		
-    res <- .C("tcholmeans_entry", as.double(x), as.integer(class), as.double(time1), as.integer(N), as.integer(p), as.integer(Gmin), as.integer(Gmax), as.integer(df_flag), as.integer(gaussian_flag), as.integer(models_selected), as.integer(use_kmeans), as.double(kmeansz), Gbest = as.integer(0), Gbest_icl = as.integer(0), zbest = double(N*(Gmax+1)),zbest_icl = double(N*(Gmax+1)), nubest = double(Gmax+1), nubest_icl = double(Gmax+1), mubest = double((Gmax+1)*p), mubest_icl = double((Gmax+1)*p), Tbest = double((Gmax+1)*p*p), Tbest_icl =double((Gmax+1)*p*p), Dbest = double((Gmax+1)*p*p), Dbest_icl = double((Gmax+1)*p*p), llres = double(8*(Gmax+1)), bicres = double(8*(Gmax+1)), iclres = double(8*(Gmax+1)), package="lonclust");
+    res <- .C("tcholmeans_entry",as.double(x),as.integer(class),as.double(time1),as.integer(N),as.integer(p),as.integer(Gmin),as.integer(Gmax),as.integer(df_flag),as.integer(gaussian_flag),as.integer(models_selected),as.integer(use_kmeans),as.double(kmeansz),Gbest=as.integer(0),Gbest_icl=as.integer(0),zbest=double(N*(Gmax+1)),zbest_icl=double(N*(Gmax+1)),nubest=double(Gmax+1),nubest_icl=double(Gmax+1),mubest=double((Gmax+1)*p),mubest_icl=double((Gmax+1)*p),Tbest=double((Gmax+1)*p*p),Tbest_icl=double((Gmax+1)*p*p),Dbest=double((Gmax+1)*p*p),Dbest_icl=double((Gmax+1)*p*p),llres=double(8*(Gmax+1)), bicres = double(8*(Gmax+1)),iclres=double(8*(Gmax+1)),PACKAGE="longclust");
 	} else {
-    res <- .C("tchol_entry", as.double(x), as.integer(class), as.integer(N), as.integer(p), as.integer(Gmin), as.integer(Gmax), as.integer(df_flag), as.integer(gaussian_flag), as.integer(models_selected), as.integer(use_kmeans), as.double(kmeansz), Gbest = as.integer(0), Gbest_icl = as.integer(0), zbest = double(N*(Gmax+1)), zbest_icl = double(N*(Gmax+1)), nubest = double(Gmax+1), nubest_icl = double(Gmax+1), mubest = double((Gmax+1)*p), mubest_icl = double((Gmax+1)*p), Tbest = double((Gmax+1)*p*p), Tbest_icl = double((Gmax+1)*p*p), Dbest = double((Gmax+1)*p*p), Dbest_icl = double((Gmax+1)*p*p), llres = double(8*(Gmax+1)), bicres = double(8*(Gmax+1)), iclres = double(8*(Gmax+1)), package="longclust");
+    res <- .C("tchol_entry",as.double(x),as.integer(class),as.integer(N),as.integer(p),as.integer(Gmin),as.integer(Gmax),as.integer(df_flag),as.integer(gaussian_flag),as.integer(models_selected),as.integer(use_kmeans),as.double(kmeansz),Gbest=as.integer(0),Gbest_icl=as.integer(0),zbest=double(N*(Gmax+1)),zbest_icl=double(N*(Gmax+1)),nubest=double(Gmax+1),nubest_icl=double(Gmax+1),mubest=double((Gmax+1)*p),mubest_icl=double((Gmax+1)*p),Tbest=double((Gmax+1)*p*p),Tbest_icl=double((Gmax+1)*p*p),Dbest=double((Gmax+1)*p*p),Dbest_icl=double((Gmax+1)*p*p),llres=double(8*(Gmax+1)),bicres=double(8*(Gmax+1)),iclres=double(8*(Gmax+1)),PACKAGE="longclust");
 	}
   
   if(criteria == "BIC") {
@@ -230,6 +230,8 @@ plot.longclust<- function(x, data, ...) {
 		}
 		mp[i] <- bestj;
 	}
+  oldpar <- par("ask")
+  on.exit(oldpar)
   par(mfrow=c(1,1),ask=FALSE)
   matplot(t(data), type="l", lty=2, col=mp, xlab = "Time", ylab = "Values", main = "Components");
   matplot(t(x$mu), type="l", lty=1, lwd = 4, col=mump, add=TRUE);

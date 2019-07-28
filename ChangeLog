@@ -1,3 +1,7 @@
+longclust version 1.2.3 2019-07-22:
+
+- package= changed to PACKAGE= in .C()
+
 longclust version 1.2.2 2018-03-18:
 
 - bug fixed re calculation of ICL
