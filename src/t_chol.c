@@ -3,13 +3,17 @@
 #include <R.h>
 #include <Rmath.h>
 #include "zeroin.h"
-#ifdef __APPLE__
-#include <Accelerate/Accelerate.h>
-#else
+//#ifdef __APPLE__
+//#include <Accelerate/Accelerate.h>
+//#else
+#include <Rconfig.h> // for PR18534fixed
+//#ifdef PR18534fixed
+//# define usePR18534fix 1
+//#endif
 #include <R_ext/Lapack.h>
 #include <R_ext/BLAS.h>
 typedef int __CLPK_integer;
-#endif
+//#endif
 
 #define COMMENTS 0  // set this to 1 to print lots of intermediate values.
 
@@ -85,13 +89,13 @@ int rcond(double *A, __CLPK_integer k, __CLPK_integer lda, double *res) {
 	iwork = (__CLPK_integer *)malloc(sizeof(__CLPK_integer)*k);
 	work = (double*)malloc(sizeof(double)*4*k);
 
-	anorm = dlange_(&norm, &k, &k, C, &k, work);
+	anorm = dlange_(&norm, &k, &k, C, &k, work,1);
 	dgetrf_(&k, &k, C, &k, ipiv, &info);
 	
 	if(COMMENTS && info != 0) 
 		Rprintf("Failed in computing matrix factorization.\n");
 	else {
-	  dgecon_(&norm, &k, C, &k, &anorm, &result, work, iwork, &info);
+	  dgecon_(&norm, &k, C, &k, &anorm, &result, work, iwork, &info,1);
 	
 	  if(COMMENTS && info != 0) 
 		  Rprintf("Failed in computing the reciprocal of the condition number.\n");
@@ -177,10 +181,10 @@ int cholest(__CLPK_integer M, double *Sig, double *That, double *Dhat, int isotr
 	double tol_sing = 1.490116/100000000;
 	double alpha = 1.0, bt=0.0;
 	double mean = 0.0, rcnumber;
-#ifndef __APPLE__
+//#ifndef __APPLE__
 	char notrans = 'N';
 	char trans = 'T';
-#endif
+//#endif
 	
 	for(i=0; i < M*M; i++) { // initialize 
 		if( i/M == i%M)
@@ -213,13 +217,13 @@ int cholest(__CLPK_integer M, double *Sig, double *That, double *Dhat, int isotr
 	}
 	
 	// B is free.
-#ifdef __APPLE__
+/*#ifdef __APPLE__
   cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, M, M, M, alpha, That, M, Sig, M, bt, B, M); // B = That * Sig.
 	cblas_dgemm(CblasColMajor, CblasNoTrans, CblasTrans, M, M, M, alpha, B, M, That, M, bt, Dhat, M); // Dhat = B *t(That).
-#else
-  dgemm_(&notrans, &notrans, &M, &M, &M, &alpha, That, &M, Sig, &M, &bt, B, &M); // B = That * Sig.
-  dgemm_(&notrans, &trans, &M, &M, &M, &alpha, B, &M, That, &M, &bt, Dhat, &M); // Dhat = B *t(That).
-#endif
+#else*/
+  dgemm_(&notrans, &notrans, &M, &M, &M, &alpha, That, &M, Sig, &M, &bt, B, &M,1,1); // B = That * Sig.
+  dgemm_(&notrans, &trans, &M, &M, &M, &alpha, B, &M, That, &M, &bt, Dhat, &M,1,1); // Dhat = B *t(That).
+//#endif
 	
 	// compute mean of the diagonal.
 	for(i=0; i < M*M; i++) {
@@ -241,13 +245,13 @@ int cholest(__CLPK_integer M, double *Sig, double *That, double *Dhat, int isotr
 	// B and Sig are free. First compute B=ginv(Dhat), then B = t(That)*B*That, then Sig = ginv(B).
 	ginv(M, M, Dhat, B);
 	
-#ifdef __APPLE__
+/*#ifdef __APPLE__
 	cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, M, M, M, alpha, That, M, B, M, bt, Sig, M);
 	cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, M, M, M, alpha, Sig, M, That, M, bt, B, M);
-#else
-  dgemm_(&trans, &notrans, &M, &M, &M, &alpha, That, &M, B, &M, &bt, Sig, &M);
-  dgemm_(&notrans, &notrans, &M, &M, &M, &alpha, Sig, &M, That, &M, &bt, B, &M);
-#endif
+#else*/
+  dgemm_(&trans, &notrans, &M, &M, &M, &alpha, That, &M, B, &M, &bt, Sig, &M,1,1);
+  dgemm_(&notrans, &notrans, &M, &M, &M, &alpha, Sig, &M, That, &M, &bt, B, &M,1,1);
+//#endif
 	ginv(M, M, B, Sig);
 	
 	if(flag == 1 || rcond(B, M, M, &rcnumber) != 0 || rcnumber < tol_sing )
@@ -264,10 +268,10 @@ int cholest2(__CLPK_integer M, double **K, double *Sig, double *That, double *Dh
 	double tol_sing = 1.490116/100000000;
 	double alpha = 1.0, bt=0.0;
 	double mean = 0.0, rcnumber;
-#ifndef __APPLE__
+//#ifndef __APPLE__
 	char notrans = 'N';
 	char trans = 'T';
-#endif
+//#endif
 	
 	for(i=0; i < M*M; i++) { // initialize 
 		if( i/M == i%M)
@@ -295,13 +299,13 @@ int cholest2(__CLPK_integer M, double **K, double *Sig, double *That, double *Dh
 	}
 	
 	// B is free.
-#ifdef __APPLE__
+/*#ifdef __APPLE__
   cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, M, M, M, alpha, That, M, Sig, M, bt, B, M); // B = That * Sig.
   cblas_dgemm(CblasColMajor, CblasNoTrans, CblasTrans, M, M, M, alpha, B, M, That, M, bt, Dhat, M); // Dhat = B *t(That).
-#else
-  dgemm_(&notrans, &notrans, &M, &M, &M, &alpha, That, &M, Sig, &M, &bt, B, &M); // B = That * Sig.
-  dgemm_(&notrans, &trans, &M, &M, &M, &alpha, B, &M, That, &M, &bt, Dhat, &M); // Dhat = B *t(That).
-#endif
+#else*/
+  dgemm_(&notrans, &notrans, &M, &M, &M, &alpha, That, &M, Sig, &M, &bt, B, &M,1,1); // B = That * Sig.
+  dgemm_(&notrans, &trans, &M, &M, &M, &alpha, B, &M, That, &M, &bt, Dhat, &M,1,1); // Dhat = B *t(That).
+//#endif
 	
 	// compute mean of the diagonal.
 	for(i=0; i < M*M; i++) {
@@ -322,13 +326,13 @@ int cholest2(__CLPK_integer M, double **K, double *Sig, double *That, double *Dh
 	
 	// B and Sig are free. First compute B=ginv(Dhat), then B = t(That)*B*That, then Sig = ginv(B).
 	ginv(M, M, Dhat, B);
-#ifdef __APPLE__
+/*#ifdef __APPLE__
   cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, M, M, M, alpha, That, M, B, M, bt, Sig, M);
   cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, M, M, M, alpha, Sig, M, That, M, bt, B, M);
-#else
-  dgemm_(&trans, &notrans, &M, &M, &M, &alpha, That, &M, B, &M, &bt, Sig, &M);
-  dgemm_(&notrans, &notrans, &M, &M, &M, &alpha, Sig, &M, That, &M, &bt, B, &M);
-#endif
+#else*/
+  dgemm_(&trans, &notrans, &M, &M, &M, &alpha, That, &M, B, &M, &bt, Sig, &M,1,1);
+  dgemm_(&notrans, &notrans, &M, &M, &M, &alpha, Sig, &M, That, &M, &bt, B, &M,1,1);
+//#endif
 	ginv(M, M, B, Sig);
 	
 	if(flag == 1 || rcond(B, M, M, &rcnumber) != 0 || rcnumber < tol_sing )
@@ -432,10 +436,10 @@ void t_common(int domeans, double *x, int *classify, int N, int p, int G_min, in
 	double tol_sing = 1.490116/100000000;
 	double alpha = 1.0, bt=0.0;
   double MYPI = 3.141593;
-#ifndef __APPLE__
+//#ifndef __APPLE__
 	char notrans = 'N';
 	char trans = 'T';
-#endif
+//#endif
 
 	int params[8];
 	int extra = 1, fac;
@@ -692,17 +696,17 @@ void t_common(int domeans, double *x, int *classify, int N, int p, int G_min, in
 						}
 						if(domeans) {
   						k=2;
-#ifdef __APPLE__
-	  				  cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, k, k, p, alpha, time1, p, time1, p, bt, dummy1, k);
-#else
-              dgemm_(&trans, &notrans, &k, &k, &p, &alpha, time1, &p, time1, &p, &bt, dummy1, &k);
-#endif
+//#ifdef __APPLE__
+//  				  cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, k, k, p, alpha, time1, p, time1, p, bt, dummy1, k);
+//#else
+              dgemm_(&trans, &notrans, &k, &k, &p, &alpha, time1, &p, time1, &p, &bt, dummy1, &k,1,1);
+//#endif
 	  					ginv(k, k, dummy1, dummy2);
-#ifdef __APPLE__
-	  					cblas_dgemm(CblasColMajor, CblasNoTrans, CblasTrans, k, p, k, alpha, dummy2, k, time1, p, bt, time2, k); 
-#else
-              dgemm_(&notrans, &trans, &k, &p, &k, &alpha, dummy2, &k, time1, &p, &bt, time2, &k);
-#endif
+//#ifdef __APPLE__
+//	  					cblas_dgemm(CblasColMajor, CblasNoTrans, CblasTrans, k, p, k, alpha, dummy2, k, time1, p, bt, time2, k); 
+//#else
+              dgemm_(&notrans, &trans, &k, &p, &k, &alpha, dummy2, &k, time1, &p, &bt, time2, &k,1,1);
+//#endif
 	  					for(i=0; i < k; i++) {
 	  						beta[g+G*i] = 0;
 	  						for(j=0; j < p; j++)
@@ -811,13 +815,13 @@ void t_common(int domeans, double *x, int *classify, int N, int p, int G_min, in
 							  prob = 1;
 								break;
 							}
-#ifdef __APPLE__
+/*#ifdef __APPLE__
 					    cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, p, p, p, alpha, T[g], p, dummy, p, bt, avg, p); // avg = t(T[g])*dummy.
 							cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, p, p, p, alpha, avg, p, T[g], p, bt, dummy, p); // dummy = avg*T[g].
-#else
-              dgemm_(&trans, &notrans, &p, &p, &p, &alpha, T[g], &p, dummy, &p, &bt, avg, &p); // avg = t(T[g])*dummy.
-              dgemm_(&notrans, &notrans, &p, &p, &p, &alpha, avg, &p, T[g], &p, &bt, dummy, &p); // dummy = avg*T[g].
-#endif
+#else*/
+              dgemm_(&trans, &notrans, &p, &p, &p, &alpha, T[g], &p, dummy, &p, &bt, avg, &p,1,1); // avg = t(T[g])*dummy.
+              dgemm_(&notrans, &notrans, &p, &p, &p, &alpha, avg, &p, T[g], &p, &bt, dummy, &p,1,1); // dummy = avg*T[g].
+//#endif
               if(rcond(dummy, p, p, &rcnumber) != 0 || rcnumber < tol_sing ) {
 							  prob = 1;
 								break;
@@ -1128,17 +1132,17 @@ void t_common(int domeans, double *x, int *classify, int N, int p, int G_min, in
 						}
 						if(domeans) {
   						k=2;
-#ifdef __APPLE__
+/*#ifdef __APPLE__
 	  				  cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, k, k, p, alpha, time1, p, time1, p, bt, dummy1, k);
-#else
-              dgemm_(&trans, &notrans, &k, &k, &p, &alpha, time1, &p, time1, &p, &bt, dummy1, &k);
-#endif
+#else*/
+              dgemm_(&trans, &notrans, &k, &k, &p, &alpha, time1, &p, time1, &p, &bt, dummy1, &k,1,1);
+//#endif
 	  					ginv(k, k, dummy1, dummy2);
-#ifdef __APPLE__
+/*#ifdef __APPLE__
 	  					cblas_dgemm(CblasColMajor, CblasNoTrans, CblasTrans, k, p, k, alpha, dummy2, k, time1, p, bt, time2, k); 
-#else
-              dgemm_(&notrans, &trans, &k, &p, &k, &alpha, dummy2, &k, time1, &p, &bt, time2, &k);
-#endif
+#else*/
+              dgemm_(&notrans, &trans, &k, &p, &k, &alpha, dummy2, &k, time1, &p, &bt, time2, &k,1,1);
+//#endif
 	  					for(i=0; i < k; i++) {
 	  						beta[g+G*i] = 0;
 	  						for(j=0; j < p; j++)

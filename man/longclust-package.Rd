@@ -11,8 +11,8 @@ multivariate t or Gaussian distributions with a Cholesky-decomposed covariance s
 \tabular{ll}{
 Package: \tab longclust\cr
 Type: \tab Package\cr
-Version: \tab 1.2.3\cr
-Date: \tab 2019-07-23\cr
+Version: \tab 1.3\cr
+Date: \tab 2023-10-19\cr
 License: \tab GPL-2 or GPL-3\cr
 LazyLoad: \tab yes\cr
 }
