@@ -446,9 +446,9 @@ void t_common(int domeans, double *x, int *classify, int N, int p, int G_min, in
 	double mindouble = -(double)(1 << 30); 
 	double maxdouble =  (double)(1 << 30); 
 
-	int i,j,k,G;
+	int i,j,k,G,prob;
 	int iso, classify_flag; // flag.
-	double prob, max, dfnew, dfold, ak, linf, bicval, iclval, penalty, rcnumber, detvalue;
+	double max, dfnew, dfold, ak, linf, bicval, iclval, penalty, rcnumber, detvalue;
 	long double sum, sum2;
 
 	int modelsLength = 8, it_max = 10000, it, conv, mIndex, g;

@@ -1,3 +1,7 @@
+longclust version 1.4 2023-12-11:
+
+- minor edits to t_chol.c to define prob as type int
+
 longclust version 1.3 2023-10-19:
 
 - edits to t_chol.c to account for missing declarations of "hidden" variables in BLAS and LAPACK definitions
