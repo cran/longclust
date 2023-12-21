@@ -1,3 +1,7 @@
+longclust version 1.5 2023-12-21:
+
+- added version dependency, i.e., R (>= 4.3.0).
+
 longclust version 1.4 2023-12-11:
 
 - minor edits to t_chol.c to define prob as type int

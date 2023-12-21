@@ -1,8 +1,8 @@
-1410b7bb4b0a63259cba1ad9c3188003 *ChangeLog
-96000c6164ec9cf183794dbaa4749099 *DESCRIPTION
+18a2e60f746dd984d552387777feeb2a *ChangeLog
+b5a81fdf9dfbbeecc0d790aca78ebe53 *DESCRIPTION
 cc00af3f095959223b3ee727b49ba4cb *NAMESPACE
 aecc909408cb96d1bc00f2eadd581b14 *R/t_chol_new.R
-3648cf39e213a1460d9c094805983976 *man/longclust-package.Rd
+506468e0605abefc49e4f5fc11f66443 *man/longclust-package.Rd
 2d0a7e678bd88bfe516b1a26f229831b *man/longclustEM.Rd
 1e8e0c4a175b9ab1c86264491935da5b *man/plot.longclust.Rd
 52498c20de922c2d59927881c7d5a272 *man/print.longclust.Rd
